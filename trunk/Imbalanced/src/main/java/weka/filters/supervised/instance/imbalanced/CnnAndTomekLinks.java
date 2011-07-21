@@ -157,6 +157,34 @@ public class CnnAndTomekLinks extends DistanceBasedFilter
 			}
 		}
 	}
+	
+	
+	/**
+	 * Input an instance for filtering. Filter requires all
+	 * training instances be read before producing output.
+	 *
+	 * @param instance 		the input instance
+	 * @return 			true if the filtered instance may now be
+	 * 				collected with output().
+	 * @throws IllegalStateException if no input structure has been defined
+	 */
+	public boolean input(Instance instance) {
+		if (getInputFormat() == null) {
+			throw new IllegalStateException("No input instance format defined");
+		}
+		if (m_NewBatch) {
+			resetQueue();
+			m_NewBatch = false;
+		}
+		if (m_FirstBatchDone) {
+			push(instance);
+			return true;
+		} else {
+			bufferInput(instance);
+			return false;
+		}
+	}
+	
 		
 	
 }

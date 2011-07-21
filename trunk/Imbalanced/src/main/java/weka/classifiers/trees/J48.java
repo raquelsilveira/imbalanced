@@ -46,6 +46,7 @@ import weka.core.Utils;
 import weka.core.WeightedInstancesHandler;
 import weka.core.TechnicalInformation.Field;
 import weka.core.TechnicalInformation.Type;
+import weka.filters.supervised.instance.imbalanced.CnnAndTomekLinks;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -220,7 +221,7 @@ public class J48
    */
   public void buildClassifier(Instances instances) 
        throws Exception {
-
+	  
     ModelSelection modSelection;	 
 
     if (m_binarySplits)
