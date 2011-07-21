@@ -87,7 +87,7 @@ public abstract class DistanceBasedFilter extends Filter
 		
 		for(Instance instanceI : instances)
 		{
-			Instance nearestNeighbor = findNearestNeighbor(instanceI, instances);
+			Instance nearestNeighbor = findNearestNeighbor(instanceI, instances); 
 			nearestNeighborMap.put(instanceI, nearestNeighbor);
 		}
 		return nearestNeighborMap;
@@ -120,12 +120,16 @@ public abstract class DistanceBasedFilter extends Filter
 		for(Instance instance : nearestNeighborMap.keySet())
 		{
 			Instance neighbor = nearestNeighborMap.get(instance);
-			
-			if (instance.classValue() != neighbor.classValue() &&
-				nearestNeighborMap.get(neighbor) == instance)
+						
+			if (neighbor != null)
 			{
-				tomekLinks.add(new TomekLink(instance, neighbor));
+				if (instance.classValue() != neighbor.classValue()
+						&& nearestNeighborMap.get(neighbor) == instance)
+				{
+					tomekLinks.add(new TomekLink(instance, neighbor));
+				}
 			}
+
 		}
 		return tomekLinks;
 	}
