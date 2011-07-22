@@ -4,13 +4,26 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import weka.core.Capabilities;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.TechnicalInformation;
+import weka.core.Capabilities.Capability;
+import weka.core.TechnicalInformation.Field;
+import weka.core.TechnicalInformation.Type;
 import weka.filters.DistanceBasedFilter;
 
 /**
+ *  A filter which undersamples a dataset by applying CNN
+ *  (choosing a subset which classifys correctly all the samples in the set 
+ *  according to one nearest neighbors - starting with the minority samples, 
+ *  and iteratively adding to the subset only samples from the majority class 
+ *  which were not classifying correctly according to the current subset), 
+ *  and then finding Tomek Links (pairs from different classes
+ *  which are closest to each other than to any other sample) and removing 
+ *  the majority class instance from each Tomek Link.
  * 
- * @author uayelet
+ * @author Ayelet and Roni
  *
  */
 public class CnnAndTomekLinks extends DistanceBasedFilter
@@ -33,6 +46,76 @@ public class CnnAndTomekLinks extends DistanceBasedFilter
 		return true;
 	}
 	
+	
+	/**
+	 * Returns a string describing this classifier.
+	 * 
+	 * @return 		a description of the classifier suitable for
+	 * 			displaying in the explorer/experimenter gui
+	 */
+	public String globalInfo() {
+		return "Undersamples a dataset by applying CNN" + 
+		"(choosing a subset which classifys correctly all the samples in the set according to one nearest neighbors - " +
+		" starting with the minority samples, and iteratively adding to the subset only samples from the majority class which" +
+		" were not classifying correctly according to the current subset), and then finding Tomek Links (pairs from different classes" +
+		" which are closest to each other than to any other sample) and removing the majority class instance from each Tomek Link." +
+		" The original dataset must fit entirely in memory." +		
+		" For more information, see \n\n" 
+		+ getTechnicalInformation().toString();
+	}
+	
+	
+	/**
+	 * Returns an instance of a TechnicalInformation object, containing 
+	 * detailed information about the technical background of this class,
+	 * e.g., paper reference or book this class is based on.
+	 * 
+	 * @return 		the technical information about this class
+	 */
+	public TechnicalInformation getTechnicalInformation() {
+		TechnicalInformation result = new TechnicalInformation(Type.ARTICLE);
+
+		result.setValue(Field.AUTHOR, "G E A P A Batista, R C Prati, M C Monard");
+		result.setValue(Field.TITLE, "A study of the behavior of several methods for balancing machine learning training data");
+		result.setValue(Field.JOURNAL, "Sigkdd Explorations");
+		result.setValue(Field.YEAR, "2004");
+
+		return result;
+	}
+	
+	
+	/** 
+	 * Returns the Capabilities of this filter.
+	 *
+	 * @return            the capabilities of this object
+	 * @see               Capabilities
+	 */
+	public Capabilities getCapabilities() {
+		Capabilities result = super.getCapabilities();
+		result.disableAll();
+
+		// attributes
+		result.enableAllAttributes();
+		result.enable(Capability.MISSING_VALUES);
+
+		// class
+		result.enable(Capability.NOMINAL_CLASS);
+		result.enable(Capability.MISSING_CLASS_VALUES);
+
+		return result;
+	}
+	
+	
+	/**
+	 * Signify that this batch of input to the filter is finished. 
+	 * If the filter requires all instances prior to filtering,
+	 * output() may now be called to retrieve the filtered instances.
+	 *
+	 * @return 		true if there are instances pending output
+	 * @throws IllegalStateException if no input structure has been defined
+	 * @throws Exception 	if provided options cannot be executed 
+	 * 			on input instances
+	 */
 	public boolean batchFinished() throws Exception {
 		if (getInputFormat() == null) {
 			throw new IllegalStateException("No input instance format defined");
