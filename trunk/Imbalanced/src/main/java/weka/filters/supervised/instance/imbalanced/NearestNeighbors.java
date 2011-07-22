@@ -4,17 +4,30 @@ import weka.core.Instance;
 
 /**
  * Class for maintaining the nearest neighbors of some instance
- * @author uayelet
+ * @author Ayelet and Roni
  *
  */
 public class NearestNeighbors
 {
 	
-	
+	/**
+	 * The number of nearest neighbors
+	 */
 	private int k;
 	
+	/**
+	 * Array of the neighbors
+	 */
 	private Instance[] m_neighbors;
+	
+	/**
+	 * The distance to each neighbor corresponding to m_neighbors
+	 */
 	private double[] m_distances;
+	
+	/**
+	 * The index of the farthest neighbor in m_neighbors
+	 */
 	private int m_furthestNeighborIndex;
 	
 	/**
