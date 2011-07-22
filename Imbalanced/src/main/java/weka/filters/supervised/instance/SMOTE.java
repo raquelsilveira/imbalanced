@@ -89,7 +89,7 @@ import java.util.Vector;
  * </pre>
  * 
  * <pre> -K &lt;nearest-neighbors&gt;
- *  Specifies the number of nearest neighbors to use.
+ *  Specifies the number of nearest neighbors to use for SMOTE.
  *  (default 5)
  * </pre>
  * 
@@ -110,7 +110,7 @@ implements SupervisedFilter, OptionHandler, TechnicalInformationHandler {
 	/** for serialization. */
 	static final long serialVersionUID = -1653880819059250364L;
 
-	/** the number of neighbors to use. */
+	/** the number of neighbors to use for SMOTE. */
 	protected int m_NearestNeighbors = 5;
 
 	/** the random seed to use. */
@@ -210,7 +210,7 @@ implements SupervisedFilter, OptionHandler, TechnicalInformationHandler {
 				"P", 1, "-P <percentage>"));
 
 		newVector.addElement(new Option(
-				"\tSpecifies the number of nearest neighbors to use.\n"
+				"\tSpecifies the number of nearest neighbors to use for SMOTE.\n"
 				+ "\t(default 5)\n",
 				"K", 1, "-K <nearest-neighbors>"));
 
@@ -238,7 +238,7 @@ implements SupervisedFilter, OptionHandler, TechnicalInformationHandler {
 	 * </pre>
 	 * 
 	 * <pre> -K &lt;nearest-neighbors&gt;
-	 *  Specifies the number of nearest neighbors to use.
+	 *  Specifies the number of nearest neighbors to use for SMOTE.
 	 *  (default 5)
 	 * </pre>
 	 * 
@@ -373,11 +373,11 @@ implements SupervisedFilter, OptionHandler, TechnicalInformationHandler {
 	 * 			displaying in the explorer/experimenter gui
 	 */
 	public String nearestNeighborsTipText() {
-		return "The number of nearest neighbors to use.";
+		return "The number of nearest neighbors to use for SMOTE.";
 	}
 
 	/**
-	 * Sets the number of nearest neighbors to use.
+	 * Sets the number of nearest neighbors to use for smote.
 	 * 
 	 * @param value	the number of nearest neighbors to use
 	 */
@@ -389,7 +389,7 @@ implements SupervisedFilter, OptionHandler, TechnicalInformationHandler {
 	}
 
 	/**
-	 * Gets the number of nearest neighbors to use.
+	 * Gets the number of nearest neighbors to use for SMOTE.
 	 * 
 	 * @return 		the number of nearest neighbors to use
 	 */
